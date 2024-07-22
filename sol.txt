@@ -24,9 +24,55 @@ weather.temprature = {
   unit: "metric",
 };
 const key = "b3aaa0b3323c0baab93aff38f75b44cb";
+
+
+
+if("geolocation" in navigator){
+    navigator.geolocation.getCurrentPosition(setPosition,showError)
+}else{
+    notificationElement.style.display='block'
+    notificationElement.innerHTML='<p> Browser doesnt support GeoLocation</p>'
+}
+function setPosition(position){
+    latitude=position.coords.latitude
+    longitude=position.coords.longitude
+
+    getWeather(latitude,longitude)
+
+}
+locationIcon.addEventListener('click',function(event){
+    getWeather(latitude,longitude)
+})
+// display error if user denied 
+function showError(error){
+    notificationElement.style.display='block'
+    notificationElement.innerHTML=`<p>${error.message}</p>`
+}
+// get weather using city from textbox
 function getSearchWeather(city) {
-  let URL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
-  fetch(URL)
+    let URL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
+    fetch(URL)
+      .then(function (response) {
+        let data = response.json();
+        return data;
+      })
+      .then(function (data) {
+        weather.temprature.value = data.main.temp;
+        weather.description = data.weather[0].description;
+        weather.iconId = data.weather[0].icon;
+        weather.city = data.name;
+        weather.country = data.sys.country;
+      })
+      .then(function () {
+        displayWeather();
+      });
+  }
+
+  // get weather using city from browser geolocation
+function getWeather(latitude,longitude){
+    let URL = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${key}&units=metric`
+
+    fetch(URL)
     .then(function (response) {
       let data = response.json();
       return data;
@@ -43,59 +89,10 @@ function getSearchWeather(city) {
     });
 }
 
+// reuasble code to display the data
 function displayWeather() {
-  iconElement.innerHTML = `<img src="./images/icons/${weather.iconId}.png"/>`;
-  tempElement.innerHTML = `${weather.temprature.value} * <span>C</span>`;
-  descElement.innerHTML = weather.description;
-  locationElement.innerHTML = `${weather.city} , ${weather.country}`;
-}
-
-
-
-------------
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/app.css">
-</head>
-
-<body>
-    <div class="container">
-        <div class="app-title">
-            <p>Welcome to Weather App</p>
-            <input type="text" id="search" placeholder="Enter City">
-
-            <div class="location-icon">
-                <img src="./images/icons/location.png">
-            </div>
-        </div>
-
-        <div class="notification"></div>
-        <div class="weather-container">
-            <div class="weather-icon">
-                <img src="./images/icons/unknown.png">
-            </div>
-
-            <div class="temprature-value">
-                <p>- *<span>C</span></p>
-            </div>
-            <div class="temprature-description">
-                <p>-</p>
-            </div>
-            <div class="location">
-                <p>-</p>
-            </div>
-        </div>
-        </div>
-
-        <script src="./js/app.js"></script>
-</body>
-
-</html>
+    iconElement.innerHTML = `<img src="./images/icons/${weather.iconId}.png"/>`;
+    tempElement.innerHTML = `${weather.temprature.value} * <span>C</span>`;
+    descElement.innerHTML = weather.description;
+    locationElement.innerHTML = `${weather.city} , ${weather.country}`;
+  }

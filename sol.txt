@@ -20,6 +20,9 @@ input.addEventListener("keyup", function (event) {
   }
 });
 const weather = {};
+weather.temprature = {
+  unit: "metric",
+};
 const key = "b3aaa0b3323c0baab93aff38f75b44cb";
 function getSearchWeather(city) {
   let URL = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}&units=metric`;
@@ -29,6 +32,20 @@ function getSearchWeather(city) {
       return data;
     })
     .then(function (data) {
-      console.log(data);
+      weather.temprature.value = data.main.temp;
+      weather.description = data.weather[0].description;
+      weather.iconId = data.weather[0].icon;
+      weather.city = data.name;
+      weather.country = data.sys.country;
+    })
+    .then(function () {
+      displayWeather();
     });
+}
+
+function displayWeather() {
+  iconElement.innerHTML = `<img src="./images/icons/${weather.iconId}.png"/>`;
+  tempElement.innerHTML = `${weather.temprature.value} * <span>C</span>`;
+  descElement.innerHTML = weather.description;
+  locationElement.innerHTML = `${weather.city} , ${weather.country}`;
 }

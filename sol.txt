@@ -1,43 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+body{
+    background-image: url('../images/bg.jpg');
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./css/app.css">
-</head>
-
-<body>
-    <div class="container">
-        <div class="app-title">
-            <p>Welcome to Weather App</p>
-            <input type="text" id="search" placeholder="Enter City">
-
-            <div class="location-icon">
-                <img src="./images/icons/location.png">
-            </div>
-        </div>
-
-        <div class="notification"></div>
-        <div class="weather-container">
-            <div class="weather-icon">
-                <img src="./images/icons/unknown.png">
-            </div>
-
-            <div class="temprature-value">
-                <p>- *<span>C</span></p>
-            </div>
-            <div class="temprature-description">
-                <p>-</p>
-            </div>
-            <div class="location">
-                <p>-</p>
-            </div>
-        </div>
-    </div>
-    </div>
-    <script src=""></script>
-</body>
-
-</html>
+.location p{
+    margin: 0;
+    padding: 0;
+    color: black;
+    text-align: center;
+    font-size: 0.8em;
+}
+.container{
+width: 50%;
+background-color: antiquewhite;
+align-self: center;
+display: block;
+margin: 10px auto;
+border-radius: 10px;
+padding-bottom: 50px;
+box-shadow: 5px 10px 20px lightcoral;
+}
+.location-icon img{
+    display: block;
+    width: 32px;
+    margin: 10px auto;
+    cursor: pointer;
+    padding: 5px;
+    border: steelblue solid 2px;
+    border-radius: 10px;
+    color: steelblue;
+}

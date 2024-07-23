@@ -1,3 +1,27 @@
+
+import { Component } from 'react'
+export default class AddUser extends Component {
+
+    addUser = (e) => {
+        e.preventDefault()
+        this.props.au(e.target.elements.uname.value, e.target.elements.dept.value)
+}
+    render() {
+
+        return (
+            <div>
+                <form onSubmit={this.addUser}>
+                    <input type='text' name='uname' placeholder='Enter Username' />
+                    <input type='text' name='dept' placeholder='Enter Depertment' />
+                    <button >Add</button>
+                </form>
+
+            </div>
+        )
+    }
+}
+------
+
 import { useState } from "react"
 import AddUser from "./AddUser"
 import Footer from "./Footer"
@@ -6,21 +30,24 @@ import UserData from "./UserData"
 function MainApp() {
 
     // initialize the state
-    const[users,setUsers]=useState([])
+    const [users, setUsers] = useState([])
+    const [department, setDepartment] = useState([])
 
-    const addUser=(user)=>{
-        alert(user)
-       setUsers([...users,user])
+
+    const addUser = (user, dept) => {
+
+        setUsers([...users, user])
+        setDepartment([...department, dept])
     }
 
-    const headerData='welcome to header'
-     
-return (
+    const headerData = 'welcome to header'
+
+    return (
         <div>
-            <Header hdata={headerData}/>
-            <AddUser au={addUser}/>
+            <Header hdata={headerData} />
+            <AddUser au={addUser} />
             <p>MainApp Component</p>
-            <UserData udata={users}/>
+            <UserData udata={users} depts={department} />
             <Footer />
         </div>
     )
@@ -31,26 +58,36 @@ export default MainApp
 -----
 
 
-import { Component } from 'react'
-export default class AddUser extends Component {
 
-    addUser=(e)=> {
-        e.preventDefault()
-        const name=e.target.elements.uname.value
-        console.log(name);
-        this.props.au(name)
 
-    }
-render() {
+import React from 'react';
 
-        return (
-            <div>
-                <form onSubmit={this.addUser}>
-                <input type='text' name='uname'/>    
-                <button >Add</button>
-                </form>
-               
-            </div>
-        )
-    }
+function UserData(props) {
+    return (
+        <div>
+            {props.udata.map((data) => (
+                <div>
+                    {data}
+
+                    <hr />
+
+
+                </div>
+            ))}
+
+            <hr />
+            {props.depts.map((data) => (
+                <div>
+                    {data}
+
+                    <hr />
+
+
+                </div>
+            ))}
+
+        </div>
+    );
 }
+
+export default UserData;

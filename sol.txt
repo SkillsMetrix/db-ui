@@ -10,24 +10,30 @@ function MainApp() {
     const [department, setDepartment] = useState([])
 
 
+    const deleteUser = (usr) => {
+        setUsers(users.filter((user) => user !== usr))
+    }
     const addUser = (user, dept) => {
 
         setUsers([...users, user])
         setDepartment([...department, dept])
     }
 
+    const deleteAll = () => {
+        setUsers([])
+    }
     const headerData = 'welcome to header'
 
     return (
         <div>
-<div class="card">
+            <div class="card">
                 <div className="card-header">
-                    <Header hdata={headerData} />
+                    <Header hdata={headerData} da={deleteAll} hasData={users.length > 0} />
                 </div>
                 <div className="card-body">
                     <AddUser au={addUser} />
                     <p>MainApp Component</p>
-                    <UserData udata={users} depts={department} />
+                    <UserData udata={users} depts={department} du={deleteUser} />
                 </div>
                 <div className="card-footer">
                     <Footer />
@@ -43,58 +49,3 @@ function MainApp() {
     )
 }
 export default MainApp
-------
-
-
-
-import React from 'react';
-
-function UserData(props) {
-    return (
-        <div>
-            <h5>UserName</h5>
-            {props.udata.map((data) => (
-                <div>{data}
-                    <button className='btn btn-danger'>Delete</button>
-                </div>
-            ))}
-
-            <h6>Department</h6>
-            {props.depts.map((data) => (
-                <div>{data}
-                    <button className='btn btn-danger'>Delete</button>
-                </div>
-            ))}
-
-        </div>
-    );
-}
-export default UserData;
-
-
-
----
-
-
-
-import { Component } from 'react'
-export default class AddUser extends Component {
-
-    addUser = (e) => {
-        e.preventDefault()
-        this.props.au(e.target.elements.uname.value, e.target.elements.dept.value)
-}
-    render() {
-
-        return (
-            <div>
-                <form onSubmit={this.addUser}>
-                    <input type='text' name='uname' placeholder='Enter Username' />
-                    <input type='text' name='dept' placeholder='Enter Depertment' />
-                    <button className='btn btn-primary'>Add</button>
-                </form>
-
-            </div>
-        )
-    }
-}

@@ -1,3 +1,16 @@
+function Header(props) {
+return (
+        <div>
+            <p>{props.hdata} </p>
+            <button disabled={!props.hasData} onClick={props.da} className="btn btn-warning">delete All Users</button>
+        </div>
+    )
+}
+export default Header
+
+
+---
+
 import { useState } from "react"
 import AddUser from "./AddUser"
 import Footer from "./Footer"
@@ -49,3 +62,33 @@ function MainApp() {
     )
 }
 export default MainApp
+
+
+-----
+
+
+
+
+import React from 'react';
+
+function UserData(props) {
+    return (
+        <div>
+            <h5>UserName</h5>
+            {props.udata.map((data) => (
+                <div>{data}
+                    <button className='btn btn-danger' onClick={props.du(data)}>Delete</button>
+                </div>
+            ))}
+
+            <h6>Department</h6>
+            {props.depts.map((data) => (
+                <div>{data}
+                    <button className='btn btn-danger'>Delete</button>
+                </div>
+            ))}
+
+        </div>
+    );
+}
+export default UserData;
